@@ -231,9 +231,9 @@ class QuestionsAnsPage extends React.Component {
 		const backUrl = `/module/${moduleId}/levels`;
 		const questions = this.props.gameData.gameData[moduleId - 1].levels[level - 1].questions;
 		const emptyOption = questionId <= totalQuestion && questions[questionId - 1].options[0].option === '';
-		if (emptyOption) {
-			console.log('score', questions[questionId - 1].score);
-		}
+		// if (emptyOption) {
+		// 	console.log('score', questions[questionId - 1].score);
+		// }
 		return (
 			<Fragment>
 				<div className="question-main-container">
