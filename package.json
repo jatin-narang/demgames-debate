@@ -5,6 +5,7 @@
 	"dependencies": {
 		"@material-ui/core": "^3.9.0",
 		"axios": "^0.18.0",
+		"body-parser": "^1.18.3",
 		"convert-excel-to-json": "^1.6.0",
 		"emotion": "^10.0.6",
 		"excel-as-json": "^2.0.2",
