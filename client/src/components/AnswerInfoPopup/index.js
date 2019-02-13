@@ -17,16 +17,15 @@ function Transition(props) {
 class AnswerInfoPopup extends Component {
 	constructor(props) {
 		super(props);
-		this.handleClick = this.handleClick.bind(this);
-		this.handleOkClick = this.handleOkClick.bind(this);
+		this.state={}
 	}
 
-	handleClick() {
+	handleClick=()=> {
 		this.props.handleClose();
 		this.props.showRightAnswer();
 	}
 
-	handleOkClick() {
+	handleOkClick=()=> {
 		this.props.handleClose();
 		this.props.nextQuestion();
 	}
@@ -46,7 +45,7 @@ class AnswerInfoPopup extends Component {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText className="greet-message" id="dialog-slide-description">
-						<span> {answerStatus ? 'Congratulations !' : ''}</span>
+						<span> {answerStatus ? 'Congratulations!' : ''}</span>
 					</DialogContentText>
 				</DialogContent>
 				<DialogContent>

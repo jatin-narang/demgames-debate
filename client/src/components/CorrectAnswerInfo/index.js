@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import './styles.scss';
 import Card from '../Card';
 import { connect } from 'react-redux';

@@ -42,15 +42,13 @@ class QuestionsAnsPage extends React.Component {
 		let next = 0;
 		let moduleId = this.props.match.params.moduleId;
 		let level = parseInt(this.props.match.params.levelId);
-		const { moduleScenario, questionId, selectedOption } = this.state;
+		const { questionId, selectedOption } = this.state;
 		const questions = this.props.gameData.gameData[moduleId - 1].levels[level - 1].questions;
 
 		const nextQuestionId = questions && questions[questionId - 1].options[selectedOption].linked_question;
 
-		!moduleScenario ? (next = 1) : (next = nextQuestionId);
-
 		this.setState((prevState) => ({
-			questionId: moduleScenario ? next : prevState.questionId + 1,
+			questionId: nextQuestionId,
 			selectedAnswer: []
 		}));
 	};
@@ -69,11 +67,6 @@ class QuestionsAnsPage extends React.Component {
 			clickedOptions: []
 		}));
 		this.handleNextClick();
-		// this.setState(
-		// 	{
-		// 		 questionId: 10
-		// 	}
-		// );
 	};
 
 	handleClick = () => {
@@ -171,7 +164,18 @@ class QuestionsAnsPage extends React.Component {
 			questionId: 10,
 			id: prevState.id + 1
 		}));
+		const { questionId } = this.state;
+		let moduleId = this.props.match.params.moduleId;
+		let level = parseInt(this.props.match.params.levelId);
+		const questions = this.props.gameData.gameData[moduleId - 1].levels[level - 1].questions;
+		const totalQuestion = this.getTotalQuestions();
+		const emptyOption = questionId <= totalQuestion && questions[questionId - 1].options[0].option === '';
 
+		if (emptyOption) {
+			this.setState((prevState) => ({
+				currentScore: prevState.currentScore + questions[questionId - 1].score
+			}));
+		}
 		this.handleNextClick();
 		this.nextQuestion();
 	};
@@ -197,6 +201,10 @@ class QuestionsAnsPage extends React.Component {
 		return parScores;
 	};
 
+	handleScore = (points) => {
+		this.setState((prevState) => ({ currentScore: prevState.currentScore + points }));
+	};
+
 	render() {
 		const {
 			answerClick,
@@ -211,7 +219,6 @@ class QuestionsAnsPage extends React.Component {
 			infoOpen,
 			clickedOptions,
 			moduleScenario,
-			selectedOption,
 			id
 		} = this.state;
 		let moduleId = parseInt(this.props.match.params.moduleId);
@@ -223,9 +230,10 @@ class QuestionsAnsPage extends React.Component {
 		const correctAns = this.getCorrectAnswer();
 		const backUrl = `/module/${moduleId}/levels`;
 		const questions = this.props.gameData.gameData[moduleId - 1].levels[level - 1].questions;
-		const nextQuestionId =
-			questionId <= totalQuestion && questions[questionId - 1].options[selectedOption].linked_question;
 		const emptyOption = questionId <= totalQuestion && questions[questionId - 1].options[0].option === '';
+		if (emptyOption) {
+			console.log('score', questions[questionId - 1].score);
+		}
 		return (
 			<Fragment>
 				<div className="question-main-container">
@@ -243,6 +251,7 @@ class QuestionsAnsPage extends React.Component {
 						</div>
 						<img className="info-icon" src={infoUrl} alt="info-icon" onClick={this.handleInfoOpen} />
 					</div>
+					\{' '}
 					<Fragment>
 						{totalQuestion > 0 &&
 						questionId > totalQuestion && (
@@ -307,13 +316,12 @@ class QuestionsAnsPage extends React.Component {
 												/>
 											))}
 									</div>
+
 									{/* Either option is clicked or question option is empty render proceed button */}
 									{(emptyOption || answerClick) && (
 										<button
 											className={`next-page-button next-page-button-${true}`}
-											onClick={
-												moduleScenario ? this.handleScenarioProceed : this.handleProceedNext
-											}
+											onClick={this.handleScenarioProceed}
 										>
 											Proceed
 										</button>

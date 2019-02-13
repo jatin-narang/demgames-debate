@@ -17,13 +17,12 @@ function Transition(props) {
 class GameInfo extends Component {
 	constructor(props) {
 		super(props);
-
-		this.handleOkClick = this.handleOkClick.bind(this);
+		this.state = {};
 	}
 
-	handleOkClick() {
+	handleOkClick = () => {
 		this.props.handleClose();
-	}
+	};
 
 	render() {
 		const { open, handleClose } = this.props;

@@ -32,7 +32,6 @@ class QuestionsAnsPage extends React.Component {
 			selectedCard: null,
 			answerClicked: 0,
 			clickedOptions: [],
-			moduleScenario: false,
 			selectedOption: 0
 		};
 	}
@@ -96,18 +95,8 @@ class QuestionsAnsPage extends React.Component {
 
 	// Increments the question Id by 1 for non-scenario modules and for scenario type it takes it to the linked question.
 	nextQuestion = () => {
-		let next = 0;
-		let moduleId = this.props.match.params.moduleId;
-		let level = parseInt(this.props.match.params.levelId);
-		const { moduleScenario, questionId, selectedOption } = this.state;
-		const questions = this.props.gameData.gameData[moduleId - 1].levels[level - 1].questions;
-
-		const nextQuestionId = questions && questions[questionId - 1].options[selectedOption].linked_question;
-
-		!moduleScenario ? (next = 1) : (next = nextQuestionId);
-
 		this.setState((prevState) => ({
-			questionId: moduleScenario ? next : prevState.questionId + 1,
+			questionId: prevState.questionId + 1,
 			selectedAnswer: []
 		}));
 	};
@@ -397,9 +386,7 @@ class QuestionsAnsPage extends React.Component {
 									{answerClick && (
 										<button
 											className={`next-page-button next-page-button-${answerClick}`}
-											onClick={
-												moduleScenario ? this.handleScenarioProceed : this.handleProceedNext
-											}
+											onClick={this.handleProceedNext}
 										>
 											Proceed
 										</button>

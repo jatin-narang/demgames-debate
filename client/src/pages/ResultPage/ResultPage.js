@@ -13,7 +13,7 @@ class ResultPage extends Component {
 
 		currentLevelNewScores[level - 1] =
 			newScore > 0
-				? newScore > prevScore ? newScore : prevScore + newScore <= 100 ? prevScore + newScore : 100
+				? newScore > prevScore ? newScore + prevScore : prevScore + newScore <= 100 ? prevScore + newScore : 100
 				: prevScore;
 		this.props.gameData.scores[moduleId - 1] = currentLevelNewScores;
 		this.props.getScores(this.props.gameData.scores);
